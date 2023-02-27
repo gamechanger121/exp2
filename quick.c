@@ -14,38 +14,24 @@ void PrintArray(int *A , int n) //Pointer of 1st element and size
     fclose(ptr);
 }
 
-int partition(int a[], int low, int high)
+void swap(int *x, int *y) {
+    int t = *x;
+    *x = *y;
+    *y = t;
+}
+
+int partition(int arr[], int low, int high)
 {
-    int pivot = a[low];
-    int i = low + 1;
-    int j = high;
-    int temp;
-
-    do
-    {
-
-        while (a[i] <= pivot)
-        {
+    int pivot = arr[high];
+    int i = (low - 1);
+    for (int j = low; j <= high - 1; j++) {
+        if (arr[j] < pivot) {
             i++;
+            swap(&arr[i], &arr[j]);
         }
-
-        while (a[j] > pivot)
-        {
-            j--;
-        }
-
-        if (i < j)
-        {
-            temp = a[i];
-            a[i] = a[j];
-            a[j] = temp;
-        }
-    } while (i < j);
-                
-    temp = a[low];
-    a[low] = a[j];
-    a[j] = temp;
-    return j;
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
 }
 
 void quickSort(int a[], int low, int high)
@@ -55,7 +41,7 @@ void quickSort(int a[], int low, int high)
     if (low < high)
     {
         partitonindex = partition(a, low, high);
-        quickSort(a, low, partitonindex - 1);  // left
+        quickSort(a, low, partitonindex-1);  // left
         quickSort(a, partitonindex + 1, high); // right
     }
 }
@@ -90,10 +76,11 @@ double qCort(int a[], int n) {
 }
 
 
-void main()
+int main()
 {
     int n = 100000;
     int b[n];
     double quickT = qCort(b, n);
     printf("Time taken by  Merge Sort: %f\n", quickT);
+    return 0;
 }
